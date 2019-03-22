@@ -1,0 +1,8 @@
+ ---
+ geometry_msgs/TransformStamped Position
+ std_msgs/Float64 vy
+ std_msgs/Float64 vx
+ std_msgs/Float64 w
+ bool kidnapped
+ bool[] keysTouched 
+ bool[] keysLongTouched
