@@ -88,7 +88,7 @@ ApplicationWindow {
           if(filename ==='aggregation')
         {
             logger.log("<!-- Define the aggregation arguments: -->\n");
-            logger.log(" "<!-- <arg name=\"name\" default=\"1\" />  -->\n");
+            logger.log(" <!-- <arg name=\"name\" default=\"1\" />  -->\n");
             logger.log("<!-- End of aggregation arguments: -->\n");
         }
 
@@ -144,7 +144,7 @@ ApplicationWindow {
 
         //tf_echo to register the positions
         for(i=0;i<client.robots.length;i++){
-        logger.log("    <node pkg=\"tf\" name= \"tf_echo_$(arg mac_adr"+i+")\" type= \"tf_echo\" args=\"paper_world $(arg mac_adr"+i+")\" output=\"log\" />\n \n");
+        logger.log("    <node pkg=\"tf\" name= \"tf_echo_$(arg mac_adr"+i+")\" type= \"tf_echo\" args=\"paper_world $(arg mac_adr"+i+") 100\" output=\"log\" />\n \n");
         }
 
 
