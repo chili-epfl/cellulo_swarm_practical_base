@@ -80,7 +80,7 @@ RosCellulo::RosCellulo(ros::NodeHandle& nodeHandle,char* MacAddr) : nodeHandle_(
         //connect signals to publisher
         connect(this,SIGNAL(keysTouchedChanged()),SLOT(Publish_keys()));
         connect(this,SIGNAL(keysLongTouchedChanged()),SLOT(Publish_longKeys()));
-        connect(this,SIGNAL(kidnappedChanged()),SLOT(Publish_Kidnapped()));
+        connect(this,SIGNAL(kidnappedChanged()),SLOT(Publish_kidnapped()));
         connect(this,SIGNAL(connectionStatusChanged()),SLOT(Publish_connectionStatus()));
         connect(this,SIGNAL(autoConnectChanged()),SLOT(Publish_autoConnect()));
         connect(this,SIGNAL(macAddrChanged()),SLOT(Publish_macAddress()));
