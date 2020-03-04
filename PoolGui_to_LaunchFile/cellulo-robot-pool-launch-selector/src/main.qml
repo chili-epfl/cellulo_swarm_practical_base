@@ -305,6 +305,8 @@ ApplicationWindow {
                             logDeviceInfo: false
                             filename: viewer.text.replace('file://','')
                             toConsole: false
+                            appendDisabled: true
+
                         }
 
                         Button{
