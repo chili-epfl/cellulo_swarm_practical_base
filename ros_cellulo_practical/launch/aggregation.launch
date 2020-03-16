@@ -17,6 +17,19 @@
 
 <!-- End of aggregation arguments: -->
 
+<node name="cellulo_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr0) 50 50">
+        <param name="macAddr" type="str" value="$(arg mac_adr0)" />
+    </node>
+<node name="cellulo_node_$(arg mac_adr1)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr1) 200 50">
+        <param name="macAddr" type="str" value="$(arg mac_adr1)" />
+    </node>
+<node name="cellulo_node_$(arg mac_adr2)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr2) 50 200">
+        <param name="macAddr" type="str" value="$(arg mac_adr2)" />
+    </node>
+<node name="cellulo_node_$(arg mac_adr3)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr3) 200 200">
+        <param name="macAddr" type="str" value="$(arg mac_adr3)" />
+    </node>
+
     <node name="sensor_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) $(arg mac_adr3) ">
         <param name="cellulo_num" type="int" value="1" />
         <param name="threshold" type="double" value="$(arg threshold)" />
@@ -86,6 +99,12 @@
  
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="paper_world_broadcaster" args="0 0 0 0 0 3.1415 base_footprint paper_world" /> 
+
+<!-- launching rviz  -->
+    <arg name="model" default="$(find ros_cellulo_swarm)/urdf/cellulo.urdf"/>
+    <arg name="gui" default="true" />
+    <arg name="config_file" value="$(find ros_cellulo_swarm)/rviz/cellulo_rviz.rviz"/>
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(arg config_file)" />
 
 </launch>
  <!-- THE END  -->

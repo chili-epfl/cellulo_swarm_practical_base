@@ -1,14 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ros_cellulo_swarm)
 
-set(Cellulo_SDK $ENV{Cellulo_SDK})
-
 ### Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ### Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 #add_definitions(-DQT_NO_KEYWORDS)
 ## Use C++11
 add_definitions(-std=c++11)
@@ -18,6 +16,7 @@ find_package(catkin REQUIRED
   COMPONENTS   
     message_generation
     roscpp
+    rospy
     sensor_msgs
     std_msgs
     tf2_ros
@@ -27,10 +26,6 @@ find_package(catkin REQUIRED
     #ros_cellulo_msgs
 
 )
-
-###
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Quick Bluetooth)
-set(QT_LIBRARIES Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Bluetooth)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -78,10 +73,10 @@ add_service_files(
 catkin_package(
   INCLUDE_DIRS
     include
-    ${Cellulo_SDK}/src/robot/
-    ${Cellulo_SDK}/include/
   #LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
+    rospy 
+    roscpp
     message_runtime
     sensor_msgs
     geometry_msgs
@@ -101,61 +96,19 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${Cellulo_SDK}
-  ${Cellulo_SDK}/src/robot/
-  ${Cellulo_SDK}/src/comm/relay
   ${catkin_INCLUDE_DIRS}
-  ${QT_LIBRARIES}
-)
 
-file(GLOB SOURCES
-    "${Cellulo_SDK}/src/*/*.cpp" #"include/CelluloRobot/src/*/*.cpp"
-    "${Cellulo_SDK}/src/util/*/*.cpp" #"include/CelluloRobot/src/util/*/*.cpp"
-    "${Cellulo_SDK}/src/comm/relay/*.cpp"
-    )
+)
 
 ############
 ###type 1###
 ############
 
 ## Declare a cpp library
-add_library(ros_cellulo_reduced_core
-   include/ros_cellulo_reduced/RosCellulo.hpp
-   ${SOURCES}
-)
-
-include_directories(
-      ${Cellulo_SDK}/include
-    )
-
-## Declare cpp executables
-add_executable(ros_cellulo_reduced
-   src/ros_cellulo_reduced/ros_cellulo_reduced_node.cpp
-   src/ros_cellulo_reduced/RosCellulo.cpp
-)
-
-## Specify libraries to link executable targets against
-target_link_libraries(ros_cellulo_reduced_core
-  ${QT_LIBRARIES}
-  ${catkin_LIBRARIES}
-  bluetooth
-)
-
-target_link_libraries(ros_cellulo_reduced
-  ros_cellulo_reduced_core
-  ${QT_LIBRARIES}
-  ${catkin_LIBRARIES}
-  bluetooth
-)
-
-############
-###type 2###
-############
-
-## Declare a cpp library
 add_library(ros_cellulo_sensor_core
    include/ros_cellulo_sensor/RosCelluloSensor.hpp
 )
+set_target_properties(ros_cellulo_sensor_core PROPERTIES LINKER_LANGUAGE CXX)
 
 add_executable(ros_cellulo_sensor
    src/ros_cellulo_sensor/ros_cellulo_sensor_node.cpp
@@ -165,9 +118,11 @@ add_executable(ros_cellulo_sensor
 target_link_libraries(ros_cellulo_sensor
   ros_cellulo_sensor_core
   ${catkin_LIBRARIES}
-  bluetooth
 )
 
-
+ install(PROGRAMS
+   src/cellulo-ros-python.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+ )
 
 #add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
