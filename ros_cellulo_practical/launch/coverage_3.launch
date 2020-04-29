@@ -4,7 +4,6 @@
   <arg name="mac_adr0" default="00_06_66_74_40_D1" />
   <arg name="mac_adr1" default="00_06_66_74_40_D2" />
   <arg name="mac_adr2" default="00_06_66_74_40_D3" />
-  <arg name="mac_adr3" default="00_06_66_74_40_D4" />
   <arg name="scale" default="1" />
   <arg name="paper_width" default="500" />
   <arg name="paper_length" default="500" />
@@ -19,19 +18,17 @@
   <arg name="mu" default="1" />
 <!-- End of coverage arguments: -->
 
-<node name="cellulo_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr0) 50 50">
+   <node name="cellulo_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr0) 50 50">
         <param name="macAddr" type="str" value="$(arg mac_adr0)" />
     </node>
-<node name="cellulo_node_$(arg mac_adr1)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr1) 200 50">
+<node name="cellulo_node_$(arg mac_adr1)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr1) 400 50">
         <param name="macAddr" type="str" value="$(arg mac_adr1)" />
     </node>
-<node name="cellulo_node_$(arg mac_adr2)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr2) 50 200">
+<node name="cellulo_node_$(arg mac_adr2)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr2) 50 400">
         <param name="macAddr" type="str" value="$(arg mac_adr2)" />
     </node>
-<node name="cellulo_node_$(arg mac_adr3)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr3) 200 200">
-        <param name="macAddr" type="str" value="$(arg mac_adr3)" />
-    </node>
-    <node name="sensor_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) $(arg mac_adr3) ">
+
+    <node name="sensor_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) ">
         <param name="cellulo_num" type="int" value="1" />
         <param name="threshold" type="double" value="$(arg threshold)" />
         <param name="paper_width" type="double" value="$(arg paper_width)" />
@@ -39,7 +36,7 @@
         <param name="scale" type="double" value="$(arg scale)" />
     </node>
 
-    <node name="sensor_node_$(arg mac_adr1)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) $(arg mac_adr3) ">
+    <node name="sensor_node_$(arg mac_adr1)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) ">
         <param name="cellulo_num" type="int" value="2" />
         <param name="threshold" type="double" value="$(arg threshold)" />
         <param name="paper_width" type="double" value="$(arg paper_width)" />
@@ -47,16 +44,8 @@
         <param name="scale" type="double" value="$(arg scale)" />
     </node>
 
-    <node name="sensor_node_$(arg mac_adr2)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) $(arg mac_adr3) ">
+    <node name="sensor_node_$(arg mac_adr2)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) ">
         <param name="cellulo_num" type="int" value="3" />
-        <param name="threshold" type="double" value="$(arg threshold)" />
-        <param name="paper_width" type="double" value="$(arg paper_width)" />
-        <param name="paper_length" type="double" value="$(arg paper_length)" />
-        <param name="scale" type="double" value="$(arg scale)" />
-    </node>
-
-    <node name="sensor_node_$(arg mac_adr3)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) $(arg mac_adr1) $(arg mac_adr2) $(arg mac_adr3) ">
-        <param name="cellulo_num" type="int" value="4" />
         <param name="threshold" type="double" value="$(arg threshold)" />
         <param name="paper_width" type="double" value="$(arg paper_width)" />
         <param name="paper_length" type="double" value="$(arg paper_length)" />
@@ -87,24 +76,13 @@
         <param name="scale" type="double" value="$(arg scale)" />
     </node>
 
-    <node name="coverage_node_$(arg mac_adr3)" pkg="ros_cellulo_practical" type="ros_cellulo_coverage" output="screen" args="$(arg mac_adr3)">
-        <param name="ko" type="double" value="$(arg ko)" />
-        <param name="kr" type="double" value="$(arg kr)" />
-        <param name="m" type="double" value="$(arg m)" />
-        <param name="mu" type="double" value="$(arg mu)" />
-        <param name="scale" type="double" value="$(arg scale)" />
-    </node>
-
-    <node pkg="tf" name= "tf_echo_$(arg mac_adr0)" type= "tf_echo" args="paper_world $(arg mac_adr0) 10" output="log" />
+    <node pkg="tf" name= "tf_echo_$(arg mac_adr0)" type= "tf_echo" args="paper_world $(arg mac_adr0) 100" output="log" />
  
 
-    <node pkg="tf" name= "tf_echo_$(arg mac_adr1)" type= "tf_echo" args="paper_world $(arg mac_adr1) 10" output="log" />
+    <node pkg="tf" name= "tf_echo_$(arg mac_adr1)" type= "tf_echo" args="paper_world $(arg mac_adr1) 100" output="log" />
  
 
-    <node pkg="tf" name= "tf_echo_$(arg mac_adr2)" type= "tf_echo" args="paper_world $(arg mac_adr2) 10" output="log" />
- 
-
-    <node pkg="tf" name= "tf_echo_$(arg mac_adr3)" type= "tf_echo" args="paper_world $(arg mac_adr3) 10" output="log" />
+    <node pkg="tf" name= "tf_echo_$(arg mac_adr2)" type= "tf_echo" args="paper_world $(arg mac_adr2) 100" output="log" />
  
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="paper_world_broadcaster" args="0 0 0 0 0 3.1415 base_footprint paper_world" /> 

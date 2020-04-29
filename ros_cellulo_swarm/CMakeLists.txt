@@ -124,5 +124,9 @@ target_link_libraries(ros_cellulo_sensor
    src/cellulo-ros-python.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
+ install(PROGRAMS
+   teleop_twist_keyboard.py
+   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 #add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})

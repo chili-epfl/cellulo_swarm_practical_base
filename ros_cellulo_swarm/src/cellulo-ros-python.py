@@ -20,7 +20,7 @@ The robot is publishing the value of its front distance sensor and receving moto
 """
 
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Empty, String
 import geometry_msgs.msg
 from geometry_msgs.msg import Vector3
 import os
@@ -75,6 +75,7 @@ class Cellulo ():
         #Publisher: 
         self.velocityPublisher = rospy.Publisher("/cellulo_node_"+self.name+'/velocity',Vector3,queue_size=10)
         self.publisher_marker_robot=rospy.Publisher("/cellulo_node_"+self.name+'/marker',Marker,queue_size=10)
+        self.touchPublisher=rospy.Publisher("/cellulo_node_"+self.name+'/longTouchKey', String, queue_size=10)
 
     def setPoseFromVelGoal(self):
         self.poseX=self.poseX+self.timeStep*self.vx
