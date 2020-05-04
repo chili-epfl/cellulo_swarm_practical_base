@@ -2,7 +2,7 @@
 #include "ros_cellulo_swarm/cellulo_touch_key.h"
 #include "ros_cellulo_swarm/cellulo_visual_effect.h"
 #include "std_msgs/String.h"
-#include "geometry_msgs/String.h"
+#include "geometry_msgs/Vector3.h"
 
 class LeaderSelection
 {
