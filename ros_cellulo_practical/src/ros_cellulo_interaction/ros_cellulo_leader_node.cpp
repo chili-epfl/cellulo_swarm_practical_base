@@ -2,6 +2,7 @@
 #include "ros_cellulo_swarm/cellulo_touch_key.h"
 #include "ros_cellulo_swarm/cellulo_visual_effect.h"
 #include "std_msgs/String.h"
+#include "geometry_msgs/String.h"
 
 class LeaderSelection
 {
@@ -37,7 +38,7 @@ public:
             //Publishers
             char publisherTopic[100];
             sprintf(publisherTopic, "/cellulo_node_%s/setVisualEffect",present_robots[i+1]);
-            VisualEffectPublisher[i] = nodeHandle_.advertise<ros_cellulo_swarm::cellulo_visual_effect>(publisherTopic,10);
+            VisualEffectPublisher[i] = nodeHandle_.advertise<geometry_msgs::Vector3>(publisherTopic,10);
         }
         LeaderPublisher=nodeHandle_.advertise<std_msgs::String>("/leader",1);
     }
