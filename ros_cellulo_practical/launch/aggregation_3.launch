@@ -1,9 +1,9 @@
 <launch>
 
 <!-- Define the generic arguments: -->
-  <arg name="mac_adr0" default="00_06_66_74_40_DC" />
-  <arg name="mac_adr1" default="00_06_66_E7_8A_C9" />
-  <arg name="mac_adr2" default="00_06_66_E7_8E_64" />
+  <arg name="mac_adr0" default="00_06_66_74_40_D1" />
+  <arg name="mac_adr1" default="00_06_66_74_40_D2" />
+  <arg name="mac_adr2" default="00_06_66_74_40_D3" />
   <arg name="scale" default="1" />
   <arg name="paper_width" default="500" />
   <arg name="paper_length" default="500" />
