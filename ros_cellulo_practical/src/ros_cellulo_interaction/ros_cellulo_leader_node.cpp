@@ -44,8 +44,9 @@ public:
 
     // Call back function if a change on one of the long touch sensors on one of the robots is detected. 
     // The functions should detects which robot was touched and publish its mac_adress on the LeaderPublisher
-    void topicCallback_getTouchKeys(const ros_cellulo_swarm::cellulo_touch_key& message)
+    void topicCallback_getTouchKeys(const std_msgs::String &msg)//ros_cellulo_swarm::cellulo_touch_key& message)
     {
+        ROS_INFO("%s",msg.data);
         // 1- Evaluate if the call back is a touch or release
         // 2- If it is a touch: 
         // a- detect which robot was selected.
