@@ -1,0 +1,35 @@
+<launch>
+
+<!-- Define the generic arguments: -->
+  <arg name="mac_adr0" default="00_06_66_74_40_D1" />
+  <arg name="scale" default="1" />
+  <arg name="paper_width" default="500" />
+  <arg name="paper_length" default="500" />
+  <arg name="threshold" default="200" />
+<!-- End of generic arguments: -->
+
+    <node name="cellulo_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="cellulo-ros-python.py" output="screen" args="$(arg mac_adr0) 50 50">
+        <param name="macAddr" type="str" value="$(arg mac_adr0)" />
+    </node>
+
+    <node name="sensor_node_$(arg mac_adr0)" pkg="ros_cellulo_swarm" type="ros_cellulo_sensor" output="screen" args="$(arg mac_adr0) ">
+        <param name="cellulo_num" type="int" value="1" />
+        <param name="threshold" type="double" value="$(arg threshold)" />
+        <param name="paper_width" type="double" value="$(arg paper_width)" />
+        <param name="paper_length" type="double" value="$(arg paper_length)" />
+        <param name="scale" type="double" value="$(arg scale)" />
+    </node>
+
+    <node pkg="tf" name= "tf_echo_$(arg mac_adr0)" type= "tf_echo" args="paper_world $(arg mac_adr0) 100" output="log" />
+ 
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="paper_world_broadcaster" args="0 0 0 0 0 3.1415 base_footprint paper_world" /> 
+
+<!-- launching rviz  -->
+    <arg name="model" default="$(find ros_cellulo_swarm)/urdf/cellulo.urdf"/>
+    <arg name="gui" default="true" />
+    <arg name="config_file" value="$(find ros_cellulo_swarm)/rviz/cellulo_rviz.rviz"/>
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(arg config_file)" />
+
+</launch>
+ <!-- THE END  -->

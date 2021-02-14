@@ -20,7 +20,7 @@ The robot is publishing the value of its front distance sensor and receving moto
 """
 
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Empty, String
 import geometry_msgs.msg
 from geometry_msgs.msg import Vector3
 import os
@@ -53,6 +53,8 @@ class Cellulo ():
     prevPoseY=0
 
     timestamp=0
+
+    color=Vector3(0.8,0.8,0.8)
         
     def __init__(self):
 
@@ -72,9 +74,11 @@ class Cellulo ():
         
         #Subscriber: 
         self.velocitySubscriber = rospy.Subscriber("/cellulo_node_"+self.name+'/setGoalVelocity', Vector3, self.velocityCallBack)
+        self.visualEffectSubscriber = rospy.Subscriber("/cellulo_node_"+self.name+'/setVisualEffect',Vector3, self.visualEffectCallBack)
         #Publisher: 
         self.velocityPublisher = rospy.Publisher("/cellulo_node_"+self.name+'/velocity',Vector3,queue_size=10)
         self.publisher_marker_robot=rospy.Publisher("/cellulo_node_"+self.name+'/marker',Marker,queue_size=10)
+        self.touchPublisher=rospy.Publisher("/cellulo_node_"+self.name+'/longTouchKey', String, queue_size=10)
 
     def setPoseFromVelGoal(self):
         self.poseX=self.poseX+self.timeStep*self.vx
@@ -87,7 +91,9 @@ class Cellulo ():
         self.vx = v.x
         self.vy = v.y
         self.w = v.z
-    
+    def visualEffectCallBack(self,c):
+        self.color=c
+
     def estimateVelocities(self):
         #Calculate the raw values
         self.vxMeasured = (self.poseX - self.prevPoseX)*1000/self.timeStep
@@ -139,9 +145,9 @@ class Cellulo ():
         mrobot.header.stamp = rospy.Time.now()
         mrobot.action = Marker.ADD
         mrobot.ns = "ros_cellulo"
-        mrobot.color.r = 0.8
-        mrobot.color.g = 0.8
-        mrobot.color.b = 0.8
+        mrobot.color.r = self.color.x
+        mrobot.color.g = self.color.y
+        mrobot.color.b = self.color.z
         mrobot.color.a = 1.0
 
         mrobot.pose.orientation.w = 1.0
