@@ -2,6 +2,7 @@
 #include "ros_cellulo_swarm/cellulo_touch_key.h"
 #include "ros_cellulo_swarm/cellulo_visual_effect.h"
 #include "std_msgs/String.h"
+#include "geometry_msgs/Vector3.h"
 
 class LeaderSelection
 {
@@ -37,7 +38,7 @@ public:
             //Publishers
             char publisherTopic[100];
             sprintf(publisherTopic, "/cellulo_node_%s/setVisualEffect",present_robots[i+1]);
-            VisualEffectPublisher[i] = nodeHandle_.advertise<ros_cellulo_swarm::cellulo_visual_effect>(publisherTopic,10);
+            VisualEffectPublisher[i] = nodeHandle_.advertise<geometry_msgs::Vector3>(publisherTopic,10);
         }
         LeaderPublisher=nodeHandle_.advertise<std_msgs::String>("/leader",1);
     }
@@ -46,9 +47,12 @@ public:
     // The functions should detects which robot was touched and publish its mac_adress on the LeaderPublisher
     void topicCallback_getTouchKeys(const std_msgs::String &msg)//ros_cellulo_swarm::cellulo_touch_key& message)
     {
+<<<<<<< HEAD
         ROS_INFO("%s",msg.data);
         // 1- Evaluate if the call back is a touch or release
         // 2- If it is a touch: 
+=======
+>>>>>>> dcf80ee8cb1eb6378fed13cb470219a1ed201b22
         // a- detect which robot was selected.
         //    i- publish its mac address
         //   ii- turn its leds to red. 
