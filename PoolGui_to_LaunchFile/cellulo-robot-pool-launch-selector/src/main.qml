@@ -22,6 +22,7 @@ ApplicationWindow {
 
     property var robotListMacAddrSelectors: []
     property var node_type
+    property var real_sim_type
 
     Component.onCompleted: {
         if(CelluloCommUtil.testRobotPoolDaemon()){
@@ -52,7 +53,7 @@ ApplicationWindow {
 
 
     function writeLaunchFile(path, filename){
-
+        logger.fileNeedsReopen = true;
         logger.log("<launch>\n\n<!-- Define the generic arguments: -->");
         var i;
         for(i=0;i<client.robots.length;i++){
@@ -95,12 +96,21 @@ ApplicationWindow {
         var all_mac_add="";
         //cellulo node
         for(i=0;i<client.robots.length;i++){
-            logger.log("    <node name=\"cellulo_node_$(arg mac_adr"+i+")\" pkg=\"ros_cellulo_swarm\" type=\"ros_cellulo_reduced\" output=\"screen\" args=\"$(arg mac_adr"+i+")\">");
-            logger.log("        <param name=\"scale_coord\" type=\"double\" value=\"$(arg scale)\" />");
+            if(real_sim_type==='real'){
+                logger.log("    <node name=\"cellulo_node_$(arg mac_adr"+i+")\" pkg=\"ros_cellulo_swarm\" type=\"ros_cellulo_reduced\" output=\"screen\" args=\"$(arg mac_adr"+i+")\">");
+                logger.log("        <param name=\"scale_coord\" type=\"double\" value=\"$(arg scale)\" />");
+            }
+            else{
+                logger.log("    <node name=\"cellulo_node_$(arg mac_adr"+i+")\" pkg=\"ros_cellulo_swarm\" type=\"cellulo-ros-python.py\" output=\"screen\" args=\"$(arg mac_adr"+i+") "+Math.floor(Math.random()*500)+" "+Math.floor(Math.random()*500)+"\">");
+                logger.log("        <param name=\"macAddr\" type=\"str\" value=\"$(arg mac_adr"+i+")\" />");
+
+            }
+
             logger.log("    </node>");
             logger.log("");
             all_mac_add=all_mac_add+"$(arg mac_adr"+i+") ";
         }
+
 
         //Sensor node
         for(i=0;i<client.robots.length;i++){
@@ -293,6 +303,12 @@ ApplicationWindow {
                             model: [ "basic","interaction", "aggregation", "coverage" ]
                             onCurrentTextChanged:
                                 node_type =  type_of_node.currentText
+                        }
+                        ComboBox{
+                            id: real_sim
+                            width: 150
+                            model :["real","simulation"]
+                            onCurrentTextChanged: real_sim_type = real_sim.currentText
                         }
                     }
                     Row{
