@@ -47,12 +47,9 @@ public:
     // The functions should detects which robot was touched and publish its mac_adress on the LeaderPublisher
     void topicCallback_getTouchKeys(const std_msgs::String &msg)//ros_cellulo_swarm::cellulo_touch_key& message)
     {
-<<<<<<< HEAD
         ROS_INFO("%s",msg.data);
         // 1- Evaluate if the call back is a touch or release
         // 2- If it is a touch: 
-=======
->>>>>>> dcf80ee8cb1eb6378fed13cb470219a1ed201b22
         // a- detect which robot was selected.
         //    i- publish its mac address
         //   ii- turn its leds to red. 
